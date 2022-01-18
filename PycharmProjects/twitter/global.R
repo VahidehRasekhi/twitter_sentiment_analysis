@@ -13,12 +13,14 @@ library(shiny)
 library(choroplethr)
 library(ggplot2)
 library(data.table)
+library(knitr)
 
 
 
 total_countries <- read_csv('total_country.csv') 
 total_cities <- read_csv('total_city.csv') 
 total_subcountries <- read_csv('total_subcountry.csv')
+compound_sentiment<- read_csv('compound_sentiment.csv')
 
 
 ##old dataset
