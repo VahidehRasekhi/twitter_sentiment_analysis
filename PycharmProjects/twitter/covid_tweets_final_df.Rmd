@@ -1,0 +1,402 @@
+```{r}
+library(tidyverse)
+library(tidytext)
+library(textdata)
+library(dplyr)
+library(rlist)
+library (plotly)
+library (ggplot2)
+library (dplyr)
+library(scales)
+library(sf)
+library(leaflet)
+library(RColorBrewer)
+library(data.table)
+library(knitr)
+```
+
+```{r}
+total_countries <- read_csv('total_country.csv') 
+```
+
+```{r}
+total_cities <- read_csv('total_city.csv') 
+```
+
+```{r}
+total_subcountries <- read_csv('total_subcountry.csv') 
+```
+
+#countries in the world
+
+```{r}
+fig <- plot_ly(total_countries, type='choropleth', 
+               locations=total_countries$country_code, 
+               z=total_countries$pos_sentiment, 
+               colorscale="Blues", 
+               hoverinfo = 'text',
+                text = ~paste0("country: ", country, "<br>","positive sentiment: ", pos_sentiment, "<br>", 
+                "negative sentiment: ", neg_sentiment)
+              ) %>% 
+              list(color = toRGB("grey"), width = 0.5) 
+
+
+fig
+```
+
+```{r}
+US_states<-total_subcountries %>% 
+  filter (country=='United States') 
+US_states=as.data.table(US_states)
+US_states
+```
+
+
+```{r}
+fig <- plot_ly(US_states, type='choropleth', 
+               locations=US_states$subcountry, 
+               z=US_states$pos_sentiment, 
+               colorscale="Blues", 
+               hoverinfo = 'text',
+                text = ~paste0("state: ", subcountry, "<br>","positive sentiment: ", pos_sentiment, "<br>", 
+                "negative sentiment: ", neg_sentiment)
+              ) %>% 
+              list(color = toRGB("grey"), width = 0.5) 
+
+fig
+```
+
+`
+
+
+
+
+```{r}
+total_countries %>% 
+  arrange(desc(pos_sentiment)) %>% 
+  head(10) 
+
+```
+
+
+```{r}
+total_countries %>% 
+  arrange(desc(pos_sentiment)) %>% 
+  head(10) %>% 
+  ggplot(aes(x = reorder(country, desc(pos_sentiment)), y=pos_sentiment))+
+  geom_col()+
+  theme(axis.text.x = element_text(angle = 45, hjust=1))
+  
+```
+
+
+
+```{r}
+total_countries %>% 
+  pivot_longer(cols=c(pos_sentiment, neg_sentiment), names_to= 'sentiment', values_to='total_sentiment') %>% 
+  arrange(desc(total_sentiment)) %>% 
+  head(17) %>% 
+  ggplot(aes(x = reorder(country, desc(total_sentiment)), fill=sentiment, y=total_sentiment))+
+  geom_bar(position='dodge', stat='identity')+
+  theme(axis.text.x = element_text(angle = 45, hjust=1))+
+  xlab('Countries') +# for the x axis label+
+  ylab('Total Number of Sentiments')+ # for the y axis label
+  labs(title = "Top 10 Countries")+
+  scale_y_continuous(breaks = c(0,100000, 300000,500000, 700000, 900000, 1100000, 1300000, 1500000, 1700000, 1900000, 2100000))+
+   theme(plot.title = element_text(hjust = 0.5, size = 14, face='bold'))
+
+```
+```{r}
+total_countries %>% 
+  pivot_longer(cols=c(pos_sentiment, neg_sentiment), names_to= 'sentiment', values_to='total_sentiment') %>% 
+  arrange(desc(total_sentiment)) %>% 
+  filter(country=='United States') %>% 
+  ggplot(aes(x = country, fill=sentiment, y=total_sentiment))+
+  geom_bar(position='dodge', stat='identity')+
+  theme(axis.text.x = element_text(hjust=1))+
+  #xlab('Countries') +# for the x axis label+
+  ylab('Total Number of Sentiments') +
+  scale_y_continuous(labels = scales::comma)
+
+  #labs(title = "Top 10 Countries")+
+   #theme(plot.title = element_text(hjust = 0.5, size = 14, face='bold'))
+```
+
+
+```{r}
+total_countries %>% 
+  pivot_longer(cols=c(pos_sentiment, neg_sentiment), names_to= 'sentiment', values_to='total_sentiment') %>% 
+  arrange(desc(total_sentiment)) %>% 
+  filter(country=='United Kingdom') %>% 
+  ggplot(aes(x = country, fill=sentiment, y=total_sentiment))+
+  geom_bar(position='dodge', stat='identity')+
+  theme(axis.text.x = element_text(hjust=1))+
+  #xlab('Countries') +# for the x axis label+
+  ylab('Total Number of Sentiments') +
+  scale_y_continuous(labels = scales::comma)
+```
+```{r, fig.width=18, fig.height=10}
+total_subcountries %>% 
+  pivot_longer(cols=c(pos_sentiment, neg_sentiment), names_to= 'sentiment', values_to='total_sentiment') %>% 
+  arrange(desc(total_sentiment)) %>% 
+  filter(country=='United States') %>% 
+  ggplot(aes(x = reorder(subcountry, desc(total_sentiment)), fill=sentiment, y=total_sentiment))+
+  geom_bar(position='dodge', stat='identity')+
+  theme(axis.text.x = element_text(angle= 45, hjust=1))+
+  xlab('US States') +
+  ylab('Total Number of Sentiments') +
+ theme(axis.text = element_text(size = 30))+
+  ylab('Total Number of Sentiments') +
+  scale_y_continuous(labels = scales::comma)+
+  knitr::opts_chunk$set(fig.width=46, fig.height=20)+
+  theme(text = element_text(size=30))
+
+```
+
+
+
+```{r}
+US_sentiment<-total_subcountries %>% 
+  filter(country=='United States') %>% 
+  select(subcountry, neg_sentiment, pos_sentiment, total_tweets) %>% 
+  arrange(desc(pos_sentiment)) 
+
+US_sentimet=as.data.table(US_sentiment)
+
+US_sentiment
+```
+
+
+```{r}
+World_sentiment<-total_countries %>% 
+  select(country, neg_sentiment, pos_sentiment, total_tweets) %>% 
+  arrange(desc(pos_sentiment)) 
+
+World_sentimet=as.data.table(World_sentiment)
+
+World_sentimet
+```
+
+
+
+```{r}
+merged_sentiment<-total_cities %>% 
+  pivot_longer(cols=c(pos_sentiment, neg_sentiment), names_to= 'sentiment', values_to='total_sentiment') 
+merged_sentiment
+  
+```
+#maps one level over the other?
+```{r}
+popup <-
+        paste(
+           "<b>City:</b>", merged_sentiment$location,"<br>",
+               "<b>State:</b>", merged_sentiment$subcountry,"<br>",
+               "<b>Country:</b>", merged_sentiment$country, "<br>",
+               "<b>Population:</b>", merged_sentiment$population, "<br>",
+              "<b>Sentiment:</b>", merged_sentiment$sentiment, "<br>"
+        )
+      pal <- colorFactor(palette = c('blue', 'red'),
+                         levels = c('pos_sentiment','neg_sentiment')
+                                    )
+      leaflet() %>%
+        addProviderTiles(provider = 'Esri', options = providerTileOptions(minZoom =1.49, maxZoom = 6)) %>%
+        addCircleMarkers(
+          data = merged_sentiment,
+          radius = log10(merged_sentiment$population),
+          opacity = .6,
+          color = pal(merged_sentiment$sentiment),
+          lng = ~ city_longitude,
+          lat = ~ city_latitude,
+          popup = popup
+        ) %>%
+        addLegend(
+          pal = pal,
+          position = 'bottomright',
+          values = factor(merged_sentiment$sentiment),
+          title = 'Sentiment Values'
+        )
+```
+
+
+
+
+
+
+```{r}
+popup <-
+        paste(
+           "<b>City:</b>", compound_sentiment$location,"<br>",
+               "<b>State:</b>", compound_sentiment$subcountry,"<br>",
+               "<b>Country:</b>", compound_sentiment$country, "<br>",
+               "<b>Population:</b>", compound_sentiment$population, "<br>",
+              "<b>Sentiment:</b>", compound_sentiment$Compound_sentiment, "<br>"
+        )
+      pal <- colorFactor(palette = c('red', 'blue'),
+                         levels = c('neg','pos')
+                                    )
+      leaflet() %>%
+        addProviderTiles(provider = 'Esri', options = providerTileOptions(minZoom =1.49, maxZoom = 6)) %>%
+        addCircleMarkers(
+          data = compound_sentiment,
+          radius = log10(compound_sentiment$population),
+          opacity = .6,
+          color = pal(compound_sentiment$Compound_sentiment),
+          lng = ~ city_longitude,
+          lat = ~ city_latitude,
+          popup = popup
+        ) %>%
+        addLegend(
+          pal = pal,
+          position = 'bottomright',
+          values = factor(compound_sentiment$Compound_sentiment),
+          title = 'Sentiment Values'
+        )
+```
+
+
+
+##############################
+```{r}
+covid_tweets <- read_csv('covid_tweets_final_df.csv') 
+```
+
+
+```{r}
+pal <- colorFactor(palette = c('blue', 'red'), 
+                   levels = c("pos",
+                              "neg"))
+
+
+popup <- paste("<b>City:</b>", covid_tweets$location,"<br>",
+               #"<b>State:</b>", covid_tweets$state,"<br>",
+               "<b>Country:</b>", covid_tweets$country, "<br>",
+               "<b>Population:</b>", covid_tweets$population, "<br>"
+              
+)
+
+leaflet() %>% 
+  addProviderTiles(provider = "Esri") %>% 
+  
+  addCircleMarkers(data = covid_tweets, radius = log10(covid_tweets$population), opacity = .6, color = pal(covid_tweets$Compound_sentiment),
+                   lng = ~city_longitude, 
+                   lat = ~city_latitude,
+                   popup = popup) %>% 
+  addLegend(pal= pal, position = 'bottomright', values = covid_tweets$Compound_sentiment, title = 'Sentiment Value' 
+  )
+```
+
+
+
+```{r}
+compound_sentiment<- read_csv('compound_sentiment.csv')
+```
+
+```{r}
+pal <- colorFactor(palette = c('blue', 'red'), 
+                   levels = c("pos",
+                              "neg"))
+
+
+popup <- paste("<b>City:</b>", compound_sentiment$location,"<br>",
+               #"<b>State:</b>", pivot$subcountry,"<br>",
+               "<b>Country:</b>", compound_sentiment$country, "<br>",
+               "<b>Population:</b>", compound_sentiment$population, "<br>",
+               "<b>Sentiment:</b>", compound_sentiment$Compound_sentiment, "<br>"
+              
+)
+
+leaflet() %>% 
+  addProviderTiles(provider = "Esri") %>% 
+  
+  addCircleMarkers(data =  compound_sentiment, 
+  radius = log10(compound_sentiment$population), 
+  opacity= .6, color= pal(compound_sentiment$Compound_sentiment),
+                   lng = ~city_longitude, 
+                   lat = ~city_latitude,
+                   popup = popup) %>% 
+  addLegend(pal= pal, position = 'bottomright', values = compound_sentiment$Compound_sentiment, title = 'Sentiment Value' 
+  )
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+covid_text<- read_csv('covid_text.csv')
+```
+
+
+
+```{r}
+covid_text %>% 
+  view()
+```
+
+```{r}
+text<-covid_text$text
+```
+
+```{r}
+docs<-Corpus(VectorSource(text))
+```
+
+```{r}
+gsub("https\\S*","",covid_text$text)
+gsub("@\\S*","",covid_text$text)
+gsub("amp","",covid_text$text)
+gsub("[\r\n]","", covid_text$text)
+gsub("[[:punct:]]", "", covid_text$text)
+```
+
+
+```{r}
+dtm <- TermDocumentMatrix(docs) 
+matrix <- as.matrix(dtm) 
+words <- sort(rowSums(matrix),decreasing=TRUE) 
+df <- data.frame(word = names(words),freq=words)
+```
+
+
+
+```{r}
+tweets_words <-  covid_text %>%
+ select(text) %>%
+ unnest_tokens(word, text)
+```
+
+```{r}
+words <- tweets_words %>% count(word, sort=TRUE)
+```
+
+
+```{r}
+set.seed(1234)
+```
+
+```{r}
+wordcloud(words = covid_text$word, freq = covid_text$freq, min.freq = 1,           
+max.words=200, random.order=FALSE, rot.per=0.35,            
+colors=brewer.pal(8, "Dark2"))
+```
+
