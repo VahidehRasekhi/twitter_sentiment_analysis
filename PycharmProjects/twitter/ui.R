@@ -2,7 +2,6 @@
 
 library(shiny)
 
-# Define UI for application that draws a histogram
 shinyUI(fluidPage(
     
     # Application title
@@ -10,29 +9,50 @@ shinyUI(fluidPage(
     
     sidebarLayout(
         sidebarPanel(
-            selectInput("selected_country",
-                        label = h3("Choose Country:"),
-                        choices = unique(sort(total_countries$country)),
-                        selected = 1),
-            selectInput("selected_subcountry",
-                        label = h3("Choose State:"),
-                        choices = unique(sort(total_subcountries$subcountry)),
-                        selected = 1),
-            selectInput("selected_city",
-                        label = h3("Choose City:"),
-                        choices = unique(sort(total_cities$location)),
-                        selected = 1),
+            
+            conditionalPanel("input.tabsetPanel == 'Sentiment in the World'", 
+                             selectInput("selected_country",
+                                         label = h3("Choose Country:"),
+                                         choices = unique(sort(total_countries$country)),
+                                         selected = 1),
+                             uiOutput('World_city_selector')
+            ),
+            
+            conditionalPanel("input.tabsetPanel == 'Sentiment in the US'", 
+                             selectInput("selected_subcountry",
+                                         label = h3("Choose State:"),
+                                         choices = US_states,
+                                         selected = 1),
+                             uiOutput('US_city_selector')
+                     ),
+            #conditionalPanel("input.tabsetPanel == 'Wordcloud'", 
+             #                selectInput("Sselected_sentiment", "Choose a sentiement:",
+              #                         choices= covid_wordcloud_sentiment,
+               #                        selected = 1),
+                #             uiOutput('sentiment_selector')
+              #               actionButton("update", "Change"),
+               #              hr(),
+                #             sliderInput("freq",
+                 #                        "Minimun Frequency:",
+                  #                       min=1, max=50, value=15),
+                   #          sliderInput("max",
+                    #                     "Maximum Number of Words:",
+                     #                    min=1, max=300, value=100)
+           # ),
+                                     
+
                     ),
         
         # Main panel for displaying outputs ----
         mainPanel(
             tabsetPanel(
+                id='tabsetPanel', 
                 tabPanel("Sentiment in the US",
                           tabsetPanel(
                               tabPanel("US Data Table",tableOutput("UStable")),
                               tabPanel("US States",plotOutput("US_states_barplot")),
                               tabPanel("Graphs", plotOutput("USbarplot")),
-                               tabPanel("Map of Sentiments in US", leafletOutput("USmap")),
+                               tabPanel("Map of Sentiments in US", plotlyOutput("USmap")),
                                   )#inner tabset panel
                                  ), #tab panel
                 
@@ -44,7 +64,7 @@ shinyUI(fluidPage(
                         tabPanel("Map with Colors", leafletOutput("Globalmap")),
                         )#inner tabset panel
                         ),
-            tabPanel("Wordcloud",plotOutput("cloud")),
+            tabPanel("Wordcloud",wordcloud2Output("wordcloud")),
             
         )#outer tabset panel
     )#mainpanel
@@ -53,18 +73,5 @@ shinyUI(fluidPage(
 )#close ui
 
 
-#tabsetPanel(type = "tabs",
-#tabPanel("Sentiment in the US", tableOutput("US_states")),
-#tabPanel("Sentiment in the World", tableOutput("world_countries")),
-#tabPanel("Map of Sentiments in US", leafletOutput("USmap")),
-#tabPanel("Map of Sentiments in the World", leafletOutput("Worldmap")),
-#tabPanel("Global choropleth map", plotlyOutput("Globalmap")),
-#tabPanel("Barchart", plotOutput("countrybarchart"))
-
-#)                     
-#)
-#)
-#)
-#)
 
 
