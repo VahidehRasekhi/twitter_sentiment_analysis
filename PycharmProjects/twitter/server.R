@@ -234,37 +234,26 @@ server <- function(input, output, session) {
   })
   
   
-  #output$sentiment_selector <-renderUI({
+  output$sentiment_selector <-renderUI({
     
-   # covid_wordcloud<- covid_wordcloud %>% 
-    #  pull(sentiment)
+    covid_wordcloud<- covid_wordcloud %>% 
+    pull(sentiment)
     
-   #covid_wordcloud_sentiment<-c('positive', 'negative')
+   covid_wordcloud<-c('positive', 'negative')
     
-    #selectInput("selected_city",
-     #           label = h3("Choose Sentiment:"),
-      #          choices = covid_wordcloud_sentiment,
-       #         selected = 1)
-    
- # })
-  output$wordcloud<- renderWordcloud2({
+    selectInput("selected_sentiment", "Select a sentiment:",
+                label = h3("Choose Sentiment:"),
+              choices = covid_wordcloud,
+                selected = 1)
+
+  })
+  output$negwordcloud<- renderWordcloud2({
     
     wordcloud2(data=covid_wordcloud, size = 0.9, shape = 'pentagon')
   })
   
   output$poswordcloud<- renderWordcloud2({
-    #poscloud<- Corpus(DirSource("~/Desktop/test1/"))
-    #poscloud <- tm_map(poscloud, stripWhitespace)
-    #poscloud <- tm_map(poscloud, tolower)
-    #poscloud <- tm_map(poscloud, removeWords, stopwords("english"))
-    #poscloud <- tm_map(poscloud, removePunctuation)
-    #poscloud <- tm_map(poscloud, stemDocument)
-    #wordcloud(poscloud
-    #          , scale=c(15,0,15)     # Set min and max scale
-    #          , max.words=100      # Set top n words
-    #          , random.order=FALSE # Words in decreasing freq
-    #          , rot.per=0.15       # % of vertical words
-    #          , use.r.layout=FALSE # Use C++ collision detection
-    #          , colors=brewer.pal(8, "Dark2"))
+    wordcloud2(data=covid_wordcloud, size = 0.9, shape = 'pentagon')
+ 
   })
 }

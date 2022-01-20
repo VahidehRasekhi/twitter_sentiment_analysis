@@ -22,12 +22,15 @@ total_countries <- read_csv('total_country.csv')
 total_cities <- read_csv('total_city.csv') 
 total_subcountries <- read_csv('total_subcountry.csv')
 compound_sentiment<- read_csv('compound_sentiment.csv')
-covid_wordcloud<-read_csv('covid_wordcloud.csv')
+
 
 ##old dataset
 covid_tweets <- read_csv('covid_tweets_lat_lng.csv') 
 
 covid_wordcloud<- read_csv('covid_wordcloud.csv')
+#neg_wordcloud<-read_csv('combined_neg.csv')
+#pos_wordcloud<- read_csv('combined_pos.csv')
+
 
 #for US_states barplot
 US_states<- total_subcountries %>% 
