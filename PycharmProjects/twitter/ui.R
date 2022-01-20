@@ -1,5 +1,4 @@
 
-
 library(shiny)
 
 shinyUI(fluidPage(
@@ -25,18 +24,8 @@ shinyUI(fluidPage(
                                          selected = 1),
                              uiOutput('US_city_selector')
                      ),
-            conditionalPanel("input.tabsetPanel == 'Wordcloud'",
-                           sliderInput("freq",
-                                         "Minimun Frequency:",
-                                         min=1, max=50, value=15),
-                             sliderInput("max",
-                                         "Maximum Number of Words:",
-                                         min=1, max=300, value=100),
-                                uiOutput('sentiment_selector')
-                        
-          
-               ),
-                    ),
+           
+                    ), #sidebar panel
         
         # Main panel for displaying outputs ----
         mainPanel(
@@ -58,22 +47,13 @@ shinyUI(fluidPage(
                         tabPanel("Map with Numbers", plotlyOutput("choro_Worldmap")),
                         tabPanel("Map with Colors", leafletOutput("Globalmap")),
                         )#inner tabset panel
-                        ),
+                        ), #tabpanel
             tabPanel("Wordcloud",
-                     fluidRow(
-                         column(width = 6,          
-                                wordcloud2Output("negwordcloud", height = "400px")
-                         ),
-                         column(width = 6,
-                                fluidRow(
-                                    wordcloud2Output("poswordcloud", height = "400px")
-                                ),
-                                
-                               # wordcloud2Output("negwordcloud"),
-                    # wordcloud2Output("poswordcloud"))
-                         )
-                     )
-            )
+                     tabsetPanel(
+                         tabPanel("Negative Sentiment Wordcloud", wordcloud2Output("negwordcloud"),height = "800px", width="100%" ),
+                         tabPanel("Positive Sentiment Wordcloud",wordcloud2Output("poswordcloud"), height = "800px", width="100%")
+             )#tabsetpanel
+            )#tabpanel
         )#outer tabset panel
     )#mainpanel
 )#sidebar layout

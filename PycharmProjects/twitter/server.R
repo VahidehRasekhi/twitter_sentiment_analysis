@@ -1,11 +1,3 @@
-#
-# This is the server logic of a Shiny web application. You can run the
-# application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
 
 library(shiny)
 library(sf)
@@ -17,11 +9,10 @@ library(RColorBrewer)
 library(data.table)
 library (SnowballC)
 
-# Define server logic required to draw a histogram
+
 server <- function(input, output, session) {
   
-  
-  
+#global leaflet map
   output$Globalmap <- renderLeaflet({ 
 
     pal <- colorFactor(palette = c('blue', 'red'), 
@@ -33,7 +24,6 @@ server <- function(input, output, session) {
                    "<b>Country:</b>", compound_sentiment$country, "<br>",
                    "<b>Population:</b>", compound_sentiment$population, "<br>",
                    "<b>Sentiment:</b>", compound_sentiment$Compound_sentiment, "<br>"
-                   
     )
     
     leaflet() %>% 
@@ -50,7 +40,8 @@ server <- function(input, output, session) {
     
   }) 
   
-  
+
+#Choropleth worldmap
   output$choro_Worldmap <- renderPlotly({
     
     fig <- plot_ly(total_countries, type='choropleth', 
@@ -68,6 +59,7 @@ server <- function(input, output, session) {
   })
   
   
+#US states plotly map
   output$USmap <- renderPlotly({ 
   
   US_states_codes<-read.csv('US_states_codes.csv', header=TRUE, sep=",")
@@ -87,12 +79,12 @@ server <- function(input, output, session) {
   fig<- plot_geo(US_states_codes, locationmode='USA-states')
   
   fig<- fig %>% add_trace(
-    z=US_states_codes$pos_sentiment, 
+    z=US_states_codes$pos_percentage, 
     text= ~hover, locations=~State.codes,
-    color=~pos_sentiment, 
+    color=~pos_percentage, 
     colors='Purples'
   )
-  fig<- fig %>% colorbar(title='Positive Sentiment')
+  fig<- fig %>% colorbar(title='Positive Percentage')
   fig<- fig %>% layout(
     title= 'COVID Sentiment in the US',
     geo=g
@@ -102,34 +94,35 @@ server <- function(input, output, session) {
   })
   
   
-  
+#US states data table
   output$UStable <- renderTable({
     
-    #total_subcountries %>% 
-      #total_subcountries$total_tweets<-format(total_subcountries$total_tweets, big.mark=",", trim=TRUE) %>% 
-      #total_subcountries$pos_sentiment<-format(total_subcountries$pos_sentiment, big.mark=",", trim=TRUE) %>% 
-      #total_subcountries$neg_sentiment<-format(total_subcountries$neg_sentiment, big.mark=",", trim=TRUE) %>% 
-      
       US_sentiment<-total_subcountries%>% 
       filter(country=='United States') %>% 
       select(subcountry, neg_sentiment, pos_sentiment, total_tweets, pos_percentage) %>% 
-      arrange(desc(pos_sentiment)) 
+      arrange(desc(pos_sentiment)) %>% 
+        mutate(total_tweets=prettyNum(total_tweets, big.mark=",")) %>% 
+        mutate(pos_sentiment=prettyNum(pos_sentiment, big.mark=",")) %>% 
+        mutate(neg_sentiment=prettyNum(neg_sentiment, big.mark=",")) 
     
     US_sentiment=as.data.table(US_sentiment)
     
   })
   
-  
+#World countries data table
   output$Worldtable <- renderTable({
     World_sentiment<-total_countries %>% 
       select(country, neg_sentiment, pos_sentiment, total_tweets, pos_percentage) %>% 
-      arrange(desc(pos_sentiment)) 
+      arrange(desc(pos_sentiment)) %>%  
+     mutate(total_tweets=prettyNum(total_tweets, big.mark=",")) %>% 
+      mutate(pos_sentiment=prettyNum(pos_sentiment, big.mark=",")) %>% 
+      mutate(neg_sentiment=prettyNum(neg_sentiment, big.mark=",")) 
     
     World_sentimet=as.data.table(World_sentiment)
     
   })
   
-  
+#World citites bar plot
   output$World_city_selector <-renderUI({
     
     World_cities<- total_cities %>% 
@@ -173,7 +166,7 @@ server <- function(input, output, session) {
     
   })
   
-  
+#US cities barplot
   output$US_city_selector <-renderUI({
     
     US_cities<- total_cities %>% 
@@ -219,7 +212,7 @@ server <- function(input, output, session) {
     plot
   })  
   
-  
+#US states barplot  
   output$US_states_barplot<- renderPlot({ 
     total_subcountries %>% 
       pivot_longer(cols=c(pos_sentiment, neg_sentiment), names_to= 'sentiment', values_to='total_sentiment') %>% 
@@ -233,27 +226,15 @@ server <- function(input, output, session) {
     
   })
   
-  
-  output$sentiment_selector <-renderUI({
-    
-    covid_wordcloud<- covid_wordcloud %>% 
-    pull(sentiment)
-    
-   covid_wordcloud<-c('positive', 'negative')
-    
-    selectInput("selected_sentiment", "Select a sentiment:",
-                label = h3("Choose Sentiment:"),
-              choices = covid_wordcloud,
-                selected = 1)
-
-  })
+#wordclouds  
   output$negwordcloud<- renderWordcloud2({
+
+    wordcloud2(data=neg_wordcloud, size = 0.9, shape = 'pentagon')
     
-    wordcloud2(data=covid_wordcloud, size = 0.9, shape = 'pentagon')
   })
   
   output$poswordcloud<- renderWordcloud2({
-    wordcloud2(data=covid_wordcloud, size = 0.9, shape = 'pentagon')
+    wordcloud2(data=pos_wordcloud, size = 0.9, shape = 'pentagon')
  
   })
 }
