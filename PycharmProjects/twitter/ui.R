@@ -18,7 +18,7 @@ shinyUI(fluidPage(
             ),
             
             conditionalPanel("input.tabsetPanel == 'Sentiment in the US'", 
-                             selectInput("selected_subcountry",
+                             selectInput("selected_state",
                                          label = h3("Choose State:"),
                                          choices = US_states,
                                          selected = 1),

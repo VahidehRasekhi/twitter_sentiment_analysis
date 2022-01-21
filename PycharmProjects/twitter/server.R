@@ -42,37 +42,58 @@ server <- function(input, output, session) {
   
 
 #Choropleth worldmap
-  output$choro_Worldmap <- renderPlotly({
+  
+  output$choro_Worldmap <- renderPlotly({ 
     
     fig <- plot_ly(total_countries, type='choropleth', 
                    locations=total_countries$country_code, 
-                   z=total_countries$pos_sentiment, 
-                   colorscale="Blues", 
+                   z=100*as.numeric(total_countries$pos_percentage),
+                   zmin=100*0.6,
+                   zmax=100*0.85,
+                   color=100*as.numeric(total_countries$pos_percentage), 
+                   colorscale="Blues",
+                   reversescale=TRUE,
                    hoverinfo = 'text',
-                   text = ~paste0("country: ", country, 
-                                  "<br>","pos_sentiment: ", pos_sentiment, 
-                                  "<br>", "neg_sentiment: ", neg_sentiment,
-                                  "<br>", "pos_sentiment percentage: ", pos_percentage
-                                  )) 
-    
+                   text = ~paste0("country: ", country, "<br>","positive sentiment: ", pos_sentiment, "<br>", 
+                                  "negative sentiment: ", neg_sentiment,
+                                  "<br>", "positive sentiment percentage: ", percent(as.numeric(pos_percentage), 
+                                                                                     accuracy = 0.1)
+                                  )
+                                 )
+      fig<-fig %>% colorbar(
+        ticksuffix='%'
+        )
+        #legend=percent(as.numeric(pos_percentage), accuracy = 0.1)
+
+      
+      
     fig
+    
+    
+  
   })
+  
+  
+  
+  
+  
+  
+  
+ 
   
   
 #US states plotly map
   output$USmap <- renderPlotly({ 
   
-  US_states_codes<-read.csv('US_states_codes.csv', header=TRUE, sep=",")
-  
-  US_states_codes$hover<- with (US_states_codes, paste ("state: ", subcountry, 
-                                                        "<br>",
-                                                        "positive sentiment: ", pos_sentiment, "<br>", 
-                                                        "negative sentiment: ", neg_sentiment))
-  
+  # US_states_codes$hover<- with (US_states_codes, paste ("state: ", subcountry, 
+  #                                                       "<br>",
+  #                                                       "positive sentiment: ", pos_sentiment, "<br>", 
+  #                                                       "negative sentiment: ", neg_sentiment))
+  # 
   g<- list(
     scope= 'usa',
     projection=list(type='albers usa'),
-    showlakes= TRUE,
+    #showlakes= TRUE,
     lakecolor=toRGB('white')
   )
   
@@ -80,7 +101,7 @@ server <- function(input, output, session) {
   
   fig<- fig %>% add_trace(
     z=US_states_codes$pos_percentage, 
-    text= ~hover, locations=~State.codes,
+    text= ~hover, locations=~`State codes`,
     color=~pos_percentage, 
     colors='Purples'
   )
@@ -99,7 +120,7 @@ server <- function(input, output, session) {
     
       US_sentiment<-total_subcountries%>% 
       filter(country=='United States') %>% 
-      select(subcountry, neg_sentiment, pos_sentiment,total_tweets, pos_percentage) %>% 
+      select(state, neg_sentiment, pos_sentiment,total_tweets, pos_percentage) %>% 
       arrange(desc(pos_percentage)) %>% 
         mutate(total_tweets=prettyNum(total_tweets, big.mark=",")) %>% 
         mutate(pos_sentiment=prettyNum(pos_sentiment, big.mark=",")) %>% 
@@ -112,12 +133,14 @@ server <- function(input, output, session) {
 #World countries data table
   output$Worldtable <- renderTable({
     World_sentiment<-total_countries %>% 
-      select(country, neg_sentiment, pos_sentiment,population,total_tweets, pos_percentage) %>% 
+      select(country, neg_sentiment, pos_sentiment,total_tweets, pos_percentage) %>% 
       arrange(desc(pos_percentage)) %>%  
      mutate(total_tweets=prettyNum(total_tweets, big.mark=",")) %>% 
       mutate(pos_sentiment=prettyNum(pos_sentiment, big.mark=",")) %>% 
-      mutate(neg_sentiment=prettyNum(neg_sentiment, big.mark=",")) %>% 
-      mutate(population=prettyNum(population, big.mark=",")) 
+      mutate(neg_sentiment=prettyNum(neg_sentiment, big.mark=",")) #%>% 
+      #mutate(positive_percentage= pos_percentage )
+    
+     # total_countries$pos_percentage<-percent(total_countries$pos_percentage, accuracy = 0.1)
     
     World_sentimet=as.data.table(World_sentiment)
     
@@ -146,7 +169,7 @@ server <- function(input, output, session) {
       ggplot(aes(x = country, fill=sentiment, y=total_sentiment))+
       geom_bar(position='dodge', stat='identity')+
       theme(axis.text.x = element_text(hjust=1))+
-      ylab('Total Number of Sentiments')+
+      ylab('Total Tweets')+
        xlab('country') 
     
     }
@@ -159,7 +182,7 @@ server <- function(input, output, session) {
         ggplot(aes(x = country, fill=sentiment, y=total_sentiment))+
         geom_bar(position='dodge', stat='identity')+
         theme(axis.text.x = element_text(hjust=1))+
-        ylab('Total Number of Sentiments')+
+        ylab('Total Tweets')+
         xlab('city') 
       
     }
@@ -171,7 +194,7 @@ server <- function(input, output, session) {
   output$US_city_selector <-renderUI({
     
     US_cities<- total_cities %>% 
-      filter(country=='United States', subcountry==input$selected_subcountry) %>% 
+      filter(country=='United States', state==input$selected_state) %>% 
       pull(city)
     
     US_cities<-c('Overall', US_cities)
@@ -185,14 +208,15 @@ server <- function(input, output, session) {
   output$USbarplot<- renderPlot({ 
     if (input$selected_city == 'Overall'){
       plot<-total_subcountries %>% 
-        filter(subcountry==input$selected_subcountry) %>% 
+        filter(state==input$selected_state) %>% 
         pivot_longer(cols=c(pos_sentiment, neg_sentiment), names_to= 'sentiment', values_to='total_sentiment') %>% 
         arrange(desc(total_sentiment)) %>% 
+        mutate(total_sentiment=prettyNum(total_sentiment, big.mark=",")) %>%  
         filter(country=='United States') %>% 
-        ggplot(aes(x = subcountry, fill=sentiment, y=total_sentiment))+
+        ggplot(aes(x = state, fill=sentiment, y=total_sentiment))+
         geom_bar(position='dodge', stat='identity')+
         theme(axis.text.x = element_text(hjust=1))+
-        ylab('Total Number of Sentiments') +
+        ylab('Total Tweets') +
         xlab('US State') 
     }
     
@@ -202,11 +226,13 @@ server <- function(input, output, session) {
         filter(city==input$selected_city) %>% 
         pivot_longer(cols=c(pos_sentiment, neg_sentiment), names_to= 'sentiment', values_to='total_sentiment') %>% 
         arrange(desc(total_sentiment)) %>% 
+        mutate(total_sentiment=prettyNum(total_sentiment, big.mark=",")) %>%  
         filter(country=='United States') %>% 
+        mutate(total_sentiment=prettyNum(total_sentiment, big.mark=",")) %>%  
         ggplot(aes(x = city, fill=sentiment, y=total_sentiment))+
         geom_bar(position='dodge', stat='identity')+
         theme(axis.text.x = element_text(hjust=1))+
-        ylab('Total Number of Sentiments') +
+        ylab('Total Tweets') +
         xlab('city') 
     }
     
@@ -219,11 +245,11 @@ server <- function(input, output, session) {
       pivot_longer(cols=c(pos_sentiment, neg_sentiment), names_to= 'sentiment', values_to='total_sentiment') %>% 
       arrange(desc(total_sentiment)) %>% 
       filter(country=='United States') %>% 
-      ggplot(aes(x = reorder(subcountry, desc(total_sentiment)), fill=sentiment, y=total_sentiment))+
+      ggplot(aes(x = reorder(state, desc(total_sentiment)), fill=sentiment, y=total_sentiment))+
       geom_bar(position='dodge', stat='identity')+
       theme(axis.text.x = element_text(angle= 45, hjust=1))+
       xlab('US States') +
-      ylab('Total Number of Sentiments') 
+      ylab('Total Tweets') 
     
   })
   
