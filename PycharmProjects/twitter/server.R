@@ -99,8 +99,8 @@ server <- function(input, output, session) {
     
       US_sentiment<-total_subcountries%>% 
       filter(country=='United States') %>% 
-      select(subcountry, neg_sentiment, pos_sentiment, total_tweets, pos_percentage) %>% 
-      arrange(desc(pos_sentiment)) %>% 
+      select(subcountry, neg_sentiment, pos_sentiment,total_tweets, pos_percentage) %>% 
+      arrange(desc(pos_percentage)) %>% 
         mutate(total_tweets=prettyNum(total_tweets, big.mark=",")) %>% 
         mutate(pos_sentiment=prettyNum(pos_sentiment, big.mark=",")) %>% 
         mutate(neg_sentiment=prettyNum(neg_sentiment, big.mark=",")) 
@@ -112,11 +112,12 @@ server <- function(input, output, session) {
 #World countries data table
   output$Worldtable <- renderTable({
     World_sentiment<-total_countries %>% 
-      select(country, neg_sentiment, pos_sentiment, total_tweets, pos_percentage) %>% 
-      arrange(desc(pos_sentiment)) %>%  
+      select(country, neg_sentiment, pos_sentiment,population,total_tweets, pos_percentage) %>% 
+      arrange(desc(pos_percentage)) %>%  
      mutate(total_tweets=prettyNum(total_tweets, big.mark=",")) %>% 
       mutate(pos_sentiment=prettyNum(pos_sentiment, big.mark=",")) %>% 
-      mutate(neg_sentiment=prettyNum(neg_sentiment, big.mark=",")) 
+      mutate(neg_sentiment=prettyNum(neg_sentiment, big.mark=",")) %>% 
+      mutate(population=prettyNum(population, big.mark=",")) 
     
     World_sentimet=as.data.table(World_sentiment)
     

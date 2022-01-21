@@ -4,7 +4,7 @@ library(shiny)
 shinyUI(fluidPage(
     
     # Application title
-    titlePanel("Sentiment Analysis of COVID and Vaccination Tweets"),
+    titlePanel("Sentiment Analysis of COVID Tweets"),
     
     sidebarLayout(
         sidebarPanel(
