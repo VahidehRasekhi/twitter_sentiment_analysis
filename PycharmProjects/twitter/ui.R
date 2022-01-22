@@ -4,7 +4,7 @@ library(shiny)
 shinyUI(fluidPage(
     
     # Application title
-    titlePanel("Sentiment Analysis of COVID Tweets"),
+    titlePanel("Sentiment Analysis of COVID and Vaccination Tweets"),
     
     sidebarLayout(
         sidebarPanel(
@@ -34,18 +34,18 @@ shinyUI(fluidPage(
                 tabPanel("Sentiment in the US",
                           tabsetPanel(
                               tabPanel("US Data Table",tableOutput("UStable")),
-                              tabPanel("US States",plotOutput("US_states_barplot")),
-                              tabPanel("Graphs", plotOutput("USbarplot")),
-                               tabPanel("Map of Sentiments in US", plotlyOutput("USmap")),
+                              #tabPanel("US States",plotOutput("US_states_barplot")),
+                              tabPanel("US States Graphs", plotOutput("USbarplot")),
+                               tabPanel("Sentiment Map of the US", plotlyOutput("USmap")),
                                   )#inner tabset panel
                                  ), #tab panel
                 
             tabPanel("Sentiment in the World", 
                      tabsetPanel(
                          tabPanel("World Data Table",tableOutput("Worldtable")),
-                         tabPanel("Graphs", plotOutput("Worldbarplot")),
-                        tabPanel("Map with Numbers", plotlyOutput("choro_Worldmap")),
-                        tabPanel("Map with Colors", leafletOutput("Globalmap")),
+                         tabPanel("World Countries Graphs", plotOutput("Worldbarplot")),
+                        tabPanel("Sentiment Map of the World", plotlyOutput("choro_Worldmap")),
+                        #tabPanel("Map with Colors", leafletOutput("Globalmap")),
                         )#inner tabset panel
                         ), #tabpanel
             tabPanel("Wordcloud",
