@@ -206,8 +206,8 @@ server <- function(input, output, session) {
         filter(state==input$selected_state) %>% 
         pivot_longer(cols=c(pos_sentiment, neg_sentiment), names_to= 'sentiment', values_to='total_sentiment') %>% 
         arrange(desc(total_sentiment)) %>% 
-        mutate(total_sentiment=prettyNum(total_sentiment, big.mark=",")) %>%  
         filter(country=='United States') %>% 
+        #mutate(total_sentiment=prettyNum(total_sentiment, big.mark=",")) %>%
         ggplot(aes(x = state, fill=sentiment, y=total_sentiment))+
         geom_bar(position='dodge', stat='identity')+
         theme(axis.text.x = element_text(hjust=1))+
@@ -221,9 +221,9 @@ server <- function(input, output, session) {
         filter(city==input$selected_city) %>% 
         pivot_longer(cols=c(pos_sentiment, neg_sentiment), names_to= 'sentiment', values_to='total_sentiment') %>% 
         arrange(desc(total_sentiment)) %>% 
-        mutate(total_sentiment=prettyNum(total_sentiment, big.mark=",")) %>%  
+        #mutate(total_sentiment=prettyNum(total_sentiment, big.mark=",")) %>%  
         filter(country=='United States') %>% 
-        mutate(total_sentiment=prettyNum(total_sentiment, big.mark=",")) %>%  
+        #mutate(total_sentiment=prettyNum(total_sentiment, big.mark=",")) %>%  
         ggplot(aes(x = city, fill=sentiment, y=total_sentiment))+
         geom_bar(position='dodge', stat='identity')+
         theme(axis.text.x = element_text(hjust=1))+

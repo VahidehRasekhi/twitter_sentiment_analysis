@@ -21,7 +21,7 @@ library (SnowballC)
 total_countries <- read_csv('total_country.csv') 
 total_cities <- read_csv('total_city.csv') 
 total_subcountries <- read_csv('total_subcountry.csv')
-compound_sentiment<- read_csv('compound_sentiment.csv')
+#compound_sentiment<- read_csv('compound_sentiment.csv')
 US_states_codes<-read_csv('US_states_codes.csv')#, header=TRUE, sep=",")
 
 
