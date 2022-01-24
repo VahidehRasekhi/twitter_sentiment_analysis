@@ -46,9 +46,9 @@ https://www.latlong.net/category/states-236-14.html
 
 
 ## Author
-Vahideh Rasekhi
-Email: vrasekhi@gmail.com
-LinkedIn: https://www.linkedin.com/in/vahideh-rasekhi-phd/
+* Vahideh Rasekhi
+* Email: vrasekhi@gmail.com
+* LinkedIn: https://www.linkedin.com/in/vahideh-rasekhi-phd/
 
 ## Acknowledgments
 I would like to thank the instructor of the Data Science bootcamp at Nashville Software School, Michael Halloway, and the teaching assistants, Veronica Ikeshoji-Orlati and Alvin Wendt. 
