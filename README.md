@@ -13,9 +13,9 @@ Covid has caused a significant worldwide public health crisis, mental health cri
 
 
 ## Questions 
-•	What are people’s attitude towards Covid and vaccination? Do they  have mostly positive or negative feelings?
-•	Are there any emotional trends that can be clustered based on geographical regions?
-•	What words do people mostly use to express their feelings and opinions?
+*	What are people’s attitude towards Covid and vaccination? Do they  have mostly positive or negative feelings?
+*	Are there any emotional trends that can be clustered based on geographical regions?
+*	What words do people mostly use to express their feelings and opinions?
 
 
 ## Data
