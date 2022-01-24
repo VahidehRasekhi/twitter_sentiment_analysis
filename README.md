@@ -82,7 +82,9 @@ The app has 3 tabs:
 
 ## Author
 Vahideh Rasekhi
+
 Email: vrasekhi@gmail.com
+
 LinkedIn: https://www.linkedin.com/in/vahideh-rasekhi-phd/
 
 
