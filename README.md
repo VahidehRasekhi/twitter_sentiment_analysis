@@ -23,6 +23,7 @@ Tweets in English langauge were downloaded from Twitter.
 
 The following websites were used to download datasets which include informaiton on world citites, countries, their latitude and longitude. 
 https://simplemaps.com/data/world-cities
+
 https://gadm.org/data.html
 
 The latitide and longitude information for the states in the United States was downaloded from the following website. 
