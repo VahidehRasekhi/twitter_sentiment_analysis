@@ -34,13 +34,13 @@ Data cleaning was done in Python and analysis in Rstudio.
 
 The VADER sentiment analysis model was used to classify tweets as having positive or negative sentiment. Some examples of tweets with negative and positive sentiment are given below: 
 
-# Negative sentiment:
+### Negative sentiment:
 * “Year of corruption: Fauci-COVID-China Pelosi Jan-6 committee, Joe Biden, border crisis.”
 * Ron DeSantis has been missing for 13 days while Covid kills thousands of Floridians and Ted Cruz fled to Cancun amid a power outage.”
 * “My uncle died 12hrs after his 2nd Pfizer shot.”
 * “Joe Biden is ignoring the states demands for more monoclonal antibody treatments and he made testing kits unavailable.”
 
-# Positive sentiment:
+### Positive sentiment:
 * “Finally managed to get an appointment for covid booster.”
 * “This needs to be shouted from the rooftops: If you get a positive rapid test, you should still get official PCR test.
 * “When your coworker comes back to work after 5 days of quarantine.”  
