@@ -19,19 +19,19 @@ Covid has caused a significant worldwide public health crisis, mental health cri
 
 
 ## Data
-Tweets in English langauge were downloaded from Twitter. 
+Tweets in English language were downloaded from Twitter. 
 
-The following websites were used to download datasets which include informaiton on world citites, countries, their latitude and longitude. 
+The following websites were used to download datasets which include information on world citites, countries, and their latitude/longitude. 
 https://simplemaps.com/data/world-cities
 
 https://gadm.org/data.html
 
-The latitide and longitude information for the states in the United States was downaloded from the following website. 
+The latitude and longitude information for the states in the United States was downloaded from the following website. 
 https://www.latlong.net/category/states-236-14.html
 
 
 ## Data Analysis
-Data cleaning was done in Python and analysis in Rstudio. 
+Data cleaning was done in Python and analysis in RStudio. 
 
 The VADER sentiment analysis model was used to classify tweets as having positive or negative sentiment. Some examples of tweets with negative and positive sentiment are given below: 
 
@@ -48,7 +48,7 @@ The VADER sentiment analysis model was used to classify tweets as having positiv
 
 
 ## Conclusion
-* The results of this study indicate that there is indeed a direct correlation between having positive/negative sentiment towards vaccintion and being willing to recieve the covid vaccine. 
+* The results of this study indicate that there is indeed a direct correlation between having positive/negative sentiment towards vaccination and being willing to receive the covid vaccine. 
 
 * The results show that more than 60% of people in the world have positive attitude towards vaccination and as of now about 61% of world population is fully vaccinated. 
 
@@ -60,16 +60,16 @@ The interactive app is available at:
 
 The app has 3 tabs: 
 * First and second tab provide the result of sentiment analysis for the United States and world countries, respectively. 
-* Third tab icludes two words clouds, representing frequent words used in tweets with negative and positive sentiments. 
+* Third tab includes two words clouds, representing frequent words used in tweets with negative and positive sentiments. 
 
 
 ## Limitations of the Study
 * Only the tweets in English language were collected. 
-* Tweets were downloaded just for 3 days, during Christmass holiday. 
+* Tweets were downloaded just for 3 days, during Christmas holiday. 
 * Not everyone is on Twitter. 
 
 
-## Depencies and Installing
+## Decencies and Installing
 * To run the PyCharm and Python files, Anaconda-Navigator needs to be installed: 
 * https://www.anaconda.com/products/individual 
 
@@ -77,7 +77,7 @@ The app has 3 tabs:
 * https://www.rstudio.com/products/rstudio/
 * https://www.r-project.org/
   
-* The codes used to analyze the data and create the app are available on this github repository: 
+* The codes used to analyze the data and create the app are available on this GitHub repository: 
 * https://github.com/VahidehRasekhi/twitter_sentiment_analysis
 
 
@@ -90,6 +90,6 @@ LinkedIn: https://www.linkedin.com/in/vahideh-rasekhi-phd/
 
 
 ## Acknowledgments
-I would like to thank the instructor of the Data Science bootcamp at Nashville Software School, Michael Halloway, and the teaching assistants, Veronica Ikeshoji-Orlati and Alvin Wendt. 
+I would like to thank the instructor of the Data Science bootcamp at Nashville Software School, Michael Holloway, and the teaching assistants, Veronica Ikeshoji-Orlati and Alvin Wendt. 
 
 
