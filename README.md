@@ -3,9 +3,9 @@ Sentiment Analysis of COVID and Vaccination Tweets
 
 
 ## Description
-Sentiment analysis is the use of natural language processing, text analysis, computational linguistics, programming languages, and statistics to systematically extract, identify,  quantify, and study people’s attitudes and opinions towards a topic.
+In this project, I analyze Covid and vaccination tweets to determine whether people have positive or negative sentiment about being vaccinated. I assume that there is a direct correlation between tweets that are considered as having positive sentiment and being willing to receive vaccination. 
 
-In this project, I analyze Covid and vaccination tweets to determine whether people have positive or negative sentiment about this new virus and being vaccinated. I assume that there is a direct correlation between tweets that are considered as having positive sentiment and being willing to receive vaccination. 
+Human beings use language to express their opinions, experiences, and feelings. I believe that the words we use to convey our thoughts and emotions have an impact on our actions and decisions.  Therefore, analyzing people's language on twitter (and social media) allows us to systematically extract, identify,  quantify, and study their attitudes and opinions towards a topic, and predict how they will act. 
 
 
 ## Motivation
@@ -57,6 +57,7 @@ The VADER sentiment analysis model was used to classify tweets as having positiv
 
 ## Shiny app
 The interactive app is available at: 
+https://vahidehrasekhi.shinyapps.io/Covid_Twitter_Sentiment_Analysis/
 
 The app has 3 tabs: 
 * First and second tab provide the result of sentiment analysis for the United States and world countries, respectively. 
