@@ -5,7 +5,7 @@ Sentiment Analysis of COVID and Vaccination Tweets
 ## Description
 In this project, I analyze Covid and vaccination tweets to determine whether people have positive or negative sentiment about being vaccinated. I assume that there is a direct correlation between tweets that are considered as having positive sentiment and being willing to receive vaccination. 
 
-Human beings use language to express their opinions, experiences, and feelings. I believe that the words we use to convey our thoughts and emotions have an impact on our actions and decisions.  Therefore, analyzing people's language on twitter (and social media) allows us to systematically extract, identify,  quantify, and study their attitudes and opinions towards a topic, and predict how they will act. 
+Human beings use language to express their opinions, experiences, and feelings. I believe that the words people use to convey their thoughts and emotions have an impact on their actions and decisions.  Therefore, analyzing people's language on twitter (and social media) allows us to systematically extract, identify,  quantify, and study their attitudes and opinions towards a topic, and predict how they will act. 
 
 
 ## Motivation
