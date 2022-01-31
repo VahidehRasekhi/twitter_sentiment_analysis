@@ -3,13 +3,13 @@ Sentiment Analysis of COVID and Vaccination Tweets
 
 
 ## Description
-In this project, I analyze Covid and vaccination tweets to determine whether people have positive or negative sentiment about being vaccinated. I assume that there is a direct correlation between tweets that are considered as having positive sentiment and being willing to receive vaccination. 
+In this project, I analyze Covid and vaccination tweets to determine whether people have positive or negative sentiment (i.e. opinion/attitude) about being vaccinated. I assume that there is a direct correlation between tweets that are considered as having positive sentiment and being willing to receive vaccination. 
 
-Human beings use language to express their opinions, experiences, and feelings. I believe that the words people use to convey their thoughts and emotions have an impact on their actions and decisions.  Therefore, analyzing people's language on twitter (and social media) allows us to systematically extract, identify,  quantify, and study their attitudes and opinions towards a topic, and predict how they will act. 
+Human beings use language to express their opinions, experiences, and feelings. The words people use to convey their thoughts and emotions have an impact on their actions and decisions.  Therefore, analyzing people's language on twitter (and social media) allows us to systematically extract, identify,  quantify, and study their attitudes and opinions towards a topic, and predict how they will act. 
 
 
 ## Motivation
-Covid has caused a significant worldwide public health crisis, mental health crisis, economic crisis, job cuts, and unemployment. Since there is no cure yet and vaccination is the only way to slow the spread of the virus, people’s sentiments and opinions play a significant role in achieving herd immunity and controlling the spread of the virus.Given that during the pandemic, people have expressed their opinions and feelings via twitter, determining people’s emotional tone behind the words they used in their tweets provides us with an opportunity to gain an understanding of their attitudes and sentiment. Analyzing people’s sentiment is important because their emotions have an impact on their decision to comply with the CDC guidelines to receive covid vaccine and wear a mask.
+Covid has caused a significant worldwide public health crisis, mental health crisis, economic crisis, job cuts, and unemployment. Since there is no cure yet and vaccination is the only way to slow the spread of the virus, people’s sentiments and opinions play a significant role in achieving herd immunity and controlling the spread of the virus. Given that during the pandemic, people have expressed their opinions and feelings via twitter, determining people’s emotional tone behind the words they used in their tweets provides us with an opportunity to gain an understanding of their attitudes and sentiment. Analyzing people’s sentiment is important because their emotions have an impact on their decision to comply with the CDC guidelines to receive covid vaccine and wear a mask.
 
 
 ## Questions 
@@ -21,7 +21,7 @@ Covid has caused a significant worldwide public health crisis, mental health cri
 ## Data
 Tweets in English language were downloaded from Twitter. 
 
-The following websites were used to download datasets which include information on world citites, countries, and their latitude/longitude. 
+The following websites were used to download datasets which include information on world cities, countries, and their latitude/longitude. 
 https://simplemaps.com/data/world-cities
 
 https://gadm.org/data.html
@@ -91,6 +91,6 @@ LinkedIn: https://www.linkedin.com/in/vahideh-rasekhi-phd/
 
 
 ## Acknowledgments
-I would like to thank the instructor of the Data Science bootcamp at Nashville Software School, Michael Holloway, and the teaching assistants, Veronica Ikeshoji-Orlati and Alvin Wendt. 
+I would like to thank the instructor of the Data Science Bootcamp at Nashville Software School, Michael Holloway, and the teaching assistants, Veronica Ikeshoji-Orlati and Alvin Wendt. 
 
 
