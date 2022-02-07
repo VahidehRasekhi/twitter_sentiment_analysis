@@ -94,5 +94,3 @@ LinkedIn: https://www.linkedin.com/in/vahideh-rasekhi-phd/
 I would like to thank the instructor of the Data Science Bootcamp at Nashville Software School, Michael Holloway, and the teaching assistants, Veronica Ikeshoji-Orlati and Alvin Wendt. 
 
 
-# twitter_sentiment_analysis
-
