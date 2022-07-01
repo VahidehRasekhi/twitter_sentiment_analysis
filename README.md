@@ -1,5 +1,5 @@
 ## Project Title 
-Sentiment Analysis of COVID and Vaccination Tweets
+Sentiment Analysis of COVID Vaccination Tweets
 
 
 ## Description
